@@ -5,6 +5,7 @@ Arduino library to read and write data to Google Firebase.
 The following steps are one-time process:
 
 Step 1: Open your firebase project, select 'Database' and click "View" under Realtime Database.
+
 [[Step1](https://github.com/Rupakpoddar/ESP8266Firebase/blob/master/documentation/tutorial_1.png)]
 
 Step 2: Select "Rules".
