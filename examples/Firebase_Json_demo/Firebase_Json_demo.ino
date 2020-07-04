@@ -24,14 +24,14 @@ SOFTWARE.
 
 //BEFORE UPLOADING, MAKE SURE THAT YOUR DATABASE ".read" AND ".write" RULES ARE SET TO 'true'.
 //For more details- https://github.com/Rupakpoddar/ESP8266Firebase/blob/master/README.md
-#include <ESP8266Firebase.h>
+#include <ESP8266Firebase.h>  //https://github.com/Rupakpoddar/ESP8266Firebase
 #include <ESP8266WiFi.h>
-#include <ArduinoJson.h>
+#include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 
 const char *ssid = "Change_this";      //Your Wi-Fi SSID
 const char *password = "Change_this"; //Your Wi-Fi password
 
-#define projectID "Change_this"     //Your Firebase Project ID; can be found in project settings.
+#define projectID "YOUR PROJECT ID" //Your Firebase Project ID; can be found in project settings.
 
 void setup() {
   Serial.begin(115200);
