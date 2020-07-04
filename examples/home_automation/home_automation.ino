@@ -32,9 +32,9 @@ SOFTWARE.
 
 //Use Python to control devices- https://github.com/Rupakpoddar/Firebase-with-python
 
-#include <ESP8266Firebase.h>
+#include <ESP8266Firebase.h>  //https://github.com/Rupakpoddar/ESP8266Firebase
 #include <ESP8266WiFi.h>
-#include <ArduinoJson.h>
+#include <ArduinoJson.h>  //https://github.com/bblanchon/ArduinoJson
 
 const char *ssid = "Change_this";      //Your Wi-Fi SSID
 const char *password = "Change_this"; //Your Wi-Fi password
