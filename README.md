@@ -1,5 +1,6 @@
 # ESP8266Firebase
 ## Arduino library to read and write data to Google Firebase.
+## [UPDATE 13 JULY 2020]: Now faster than ever before! Almost instant updating/response speed.
 
 # Tutorial
 ### The following steps are one-time process:
