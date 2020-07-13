@@ -1,28 +1,5 @@
-/*
-MIT License
-
-Copyright (c) 2020 Rupak Poddar
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-*/
 #include <ESP8266WiFi.h>
-//#include <WiFiClientSecure.h> 
+//#include <WiFiClientSecure.h>
 //#include <ESP8266WebServer.h>
 //#include <ESP8266HTTPClient.h>
 #include "ESP8266Firebase.h"
@@ -36,20 +13,20 @@ Firebase::Firebase(String projectID, const char* FIREBASE_FINGERPRINT){
 
 String Firebase::setString(String link, String data){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
 
   String msg = "\""+data+"\"";
-  
+
   httpsClient.print(String("PUT ") + Link + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
@@ -57,18 +34,18 @@ String Firebase::setString(String link, String data){
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
           "Content-Length: "+msg.length()+"\r\n" +
-          "\r\n" + 
+          "\r\n" +
           msg + "\r\n");
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     return line; //return this
   }
@@ -86,18 +63,18 @@ String Firebase::setFloat(String link, float data){
 
 String Firebase::setNum(String link, String msg){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
-  
+
   httpsClient.print(String("PUT ") + Link + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
@@ -105,18 +82,18 @@ String Firebase::setNum(String link, String msg){
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
           "Content-Length: "+msg.length()+"\r\n" +
-          "\r\n" + 
+          "\r\n" +
           msg + "\r\n");
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     return line; //return this
   }
@@ -124,20 +101,20 @@ String Firebase::setNum(String link, String msg){
 
 String Firebase::pushString(String link, String data){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
 
   String msg = "\""+data+"\"";
-  
+
   httpsClient.print(String("POST ") + Link + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
@@ -145,18 +122,18 @@ String Firebase::pushString(String link, String data){
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
           "Content-Length: "+msg.length()+"\r\n" +
-          "\r\n" + 
+          "\r\n" +
           msg + "\r\n");
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     return line; //return this
   }
@@ -174,18 +151,18 @@ String Firebase::pushFloat(String link, float data){
 
 String Firebase::pushNum(String link, String msg){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
-  
+
   httpsClient.print(String("POST ") + Link + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
@@ -193,18 +170,18 @@ String Firebase::pushNum(String link, String msg){
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
           "Content-Length: "+msg.length()+"\r\n" +
-          "\r\n" + 
+          "\r\n" +
           msg + "\r\n");
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     return line; //return this
   }
@@ -227,32 +204,32 @@ float Firebase::getFloat(String link){
 
 void Firebase::getData(String link){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
-  
+
   httpsClient.print(String("GET ") + Link + " HTTP/1.1\r\n" +
-               "Host: " + _host + "\r\n" +               
+               "Host: " + _host + "\r\n" +
                "Connection: close\r\n\r\n");
 
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     _int = line.toInt();
     _float = line.toFloat();
@@ -267,31 +244,31 @@ void Firebase::getData(String link){
 
 String Firebase::deleteData(String link){
   WiFiClientSecure httpsClient;
- 
+
   httpsClient.setFingerprint(_FIREBASE_FINGERPRINT);
-  httpsClient.setTimeout(15000);
-  
+  httpsClient.setTimeout(1000);
+
   int r=0;
   while((!httpsClient.connect(_host, _httpsPort)) && (r < 30)){
       delay(100);
       r++;
   }
-  
+
   String Link = String("/")+link+String(".json");
-  
+
   httpsClient.print(String("DELETE ") + Link + " HTTP/1.1\r\n" +
-               "Host: " + _host + "\r\n" +               
+               "Host: " + _host + "\r\n" +
                "Connection: close\r\n\r\n");
-                   
+
   while (httpsClient.connected()) {
     String line = httpsClient.readStringUntil('\n');
     if (line == "\r") {
       break;
     }
   }
- 
+
   String line;
-  while(httpsClient.available()){        
+  while(httpsClient.available()){
     line = httpsClient.readStringUntil('\n');
     return line; //return this
   }
