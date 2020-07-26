@@ -1,3 +1,4 @@
+//Written by Rupak Poddar
 //BEFORE UPLOADING, MAKE SURE THAT YOUR DATABASE ".read" AND ".write" RULES ARE SET TO 'true'.
 //For more details- https://github.com/Rupakpoddar/ESP8266Firebase/blob/master/README.md
 #include <ESP8266Firebase.h>  //https://github.com/Rupakpoddar/ESP8266Firebase
