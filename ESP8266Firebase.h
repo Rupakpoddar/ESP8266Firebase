@@ -32,20 +32,19 @@ SOFTWARE.
 	{
 		public:
 			Firebase(String projectID);
-			Firebase(String projectID, const char* FIREBASE_FINGERPRINT);
-			String setString(String link, String data);
-			String setNum(String link, String data);
-			String setInt(String link, int data);
-			String setFloat(String link, float data);
-			String pushString(String link, String data);
-			String pushNum(String link, String data);
-			String pushInt(String link, int data);
-			String pushFloat(String link, float data);
+			int setString(String link, String data);
+			int setNum(String link, String data);
+			int setInt(String link, int data);
+			int setFloat(String link, float data);
+			int pushString(String link, String data);
+			int pushNum(String link, String data);
+			int pushInt(String link, int data);
+			int pushFloat(String link, float data);
 			void getData(String link);
 			String getString(String link);
 			int getInt(String link);
 			float getFloat(String link);
-			String deleteData(String link);
+			int deleteData(String link);
 			void json(bool json);
 			void Connect_to_host();
 

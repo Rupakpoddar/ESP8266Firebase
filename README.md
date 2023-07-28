@@ -1,14 +1,6 @@
 # ESP8266Firebase
-## Arduino library to read and write data to Google Firebase Realtime Database.
-## [UPDATE JULY 2021]: Now faster than ever before! Optimised for low latency performance. Added option to completely avoid entering fingerprint.
-
-## Official Arduino Link:
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.arduino.cc/reference/en/libraries/esp8266-firebase/
-
-## YouTube Videos: 
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=NqKaHee_zQA
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=cIa5vQ7rRa0
-### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;https://www.youtube.com/watch?v=xpZ0oMvpQ3g
+## Arduino library to read and write data to Google Firebase.
+## [UPDATE 13 JULY 2020]: Now faster than ever before! Almost instant updating/response speed.
 
 # Tutorial
 ### The following steps are one-time process:

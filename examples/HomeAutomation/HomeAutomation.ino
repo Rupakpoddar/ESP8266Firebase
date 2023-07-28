@@ -22,23 +22,10 @@
 #define device4 14  // D5
 int device_list[4] = {device1, device2, device3, device4};
 
-/*
-  // FAST METHOD
-  // REQUIRES PERIODIC UPDATE OF FINGERPRINT (EVERY 1 YEAR)
-  // OUTDATED FINGERPRINT WILL STOP THE SERVICE
-  // LATEST FINGERPRINT CAN BE FOUND AT- https://www.grc.com/fingerprints.htm?domain=test.firebaseio.com
-  // REPLACE COLONS(:) WITH A SPACE(" ") AS SHOWN BELOW
-  // 03:9E:4F:E6:83:FC:40:EF:FC:B2:C5:EF:36:0E:7C:3C:42:20:1B:8F ==> 03 9E 4F E6 83 FC 40 EF FC B2 C5 EF 36 0E 7C 3C 42 20 1B 8F
-  #define FINGERPRINT "03 9E 4F E6 83 FC 40 EF FC B2 C5 EF 36 0E 7C 3C 42 20 1B 8F"
-  Firebase firebase(PROJECT_ID, FINGERPRINT);
-  // UNCOMMENT THIS BLOCK AND COMMENT THE LINE BELOW
-*/
-
-Firebase firebase(PROJECT_ID);    // SLOW BUT HASTLE-FREE METHOD FOR LONG TERM USAGE. DOES NOT REQUIRE PERIODIC UPDATE OF FINGERPRINT
+Firebase firebase(PROJECT_ID);
 
 void setup() {
   Serial.begin(115200);
-  firebase.json(true);
   pinMode(device1, OUTPUT);
   pinMode(device2, OUTPUT);
   pinMode(device3, OUTPUT);
@@ -65,11 +52,13 @@ void setup() {
   Serial.println("WiFi Connected");
 
   // Print the IP address
-  Serial.print("Use this URL to connect: ");
+  Serial.print("IP Address: ");
   Serial.print("http://");
   Serial.print(WiFi.localIP());
   Serial.println("/");
   digitalWrite(LED_BUILTIN, HIGH);
+
+  firebase.json(true);  // Make sure to add this line. 
 }
 
 void loop() {

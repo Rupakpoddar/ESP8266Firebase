@@ -29,13 +29,7 @@ Firebase::Firebase(String projectID){
 	_httpsClient.setInsecure();
 }
 
-Firebase::Firebase(String projectID, const char* FIREBASE_FINGERPRINT){
-	_host = projectID+".firebaseio.com";
-	_httpsClient.setFingerprint(FIREBASE_FINGERPRINT);
-	_httpsClient.setTimeout(1000);
-}
-
-String Firebase::setString(String link, String data){
+int Firebase::setString(String link, String data){
 	Connect_to_host();
   String Link = String("/")+link+String(".json");
   String msg = "\""+data+"\"";
@@ -60,21 +54,24 @@ String Firebase::setString(String link, String data){
   String line;
   while(_httpsClient.available()){
     line = _httpsClient.readStringUntil('\n');
-    return line; // Return this
+    if (line.length() > 0)
+      return 200; // Success
   }
+
+  return 400;     // Failed
 }
 
-String Firebase::setInt(String link, int data){
+int Firebase::setInt(String link, int data){
   String Data = String(data);
   return Firebase::setNum(link, Data);
 }
 
-String Firebase::setFloat(String link, float data){
+int Firebase::setFloat(String link, float data){
   String Data = String(data);
   return Firebase::setNum(link, Data);
 }
 
-String Firebase::setNum(String link, String msg){
+int Firebase::setNum(String link, String msg){
 	Connect_to_host();
   String Link = String("/")+link+String(".json");
 
@@ -98,11 +95,14 @@ String Firebase::setNum(String link, String msg){
   String line;
   while(_httpsClient.available()){
     line = _httpsClient.readStringUntil('\n');
-    return line; // Return this
+    if (line.length() > 0)
+      return 200; // Success
   }
+
+  return 400;     // Failed
 }
 
-String Firebase::pushString(String link, String data){
+int Firebase::pushString(String link, String data){
 	Connect_to_host();
   String Link = String("/")+link+String(".json");
 
@@ -128,21 +128,24 @@ String Firebase::pushString(String link, String data){
   String line;
   while(_httpsClient.available()){
     line = _httpsClient.readStringUntil('\n');
-    return line; // Return this
+    if (line.length() > 0)
+      return 200; // Success
   }
+
+  return 400;     // Failed
 }
 
-String Firebase::pushInt(String link, int data){
+int Firebase::pushInt(String link, int data){
   String Data = String(data);
   return Firebase::pushNum(link, Data);
 }
 
-String Firebase::pushFloat(String link, float data){
+int Firebase::pushFloat(String link, float data){
   String Data = String(data);
   return Firebase::pushNum(link, Data);
 }
 
-String Firebase::pushNum(String link, String msg){
+int Firebase::pushNum(String link, String msg){
 	Connect_to_host();
   String Link = String("/")+link+String(".json");
 
@@ -166,8 +169,11 @@ String Firebase::pushNum(String link, String msg){
   String line;
   while(_httpsClient.available()){
     line = _httpsClient.readStringUntil('\n');
-    return line; // Return this
+    if (line.length() > 0)
+      return 200; // Success
   }
+
+  return 400;     // Failed
 }
 
 String Firebase::getString(String link){
@@ -213,7 +219,7 @@ void Firebase::getData(String link){
   }
 }
 
-String Firebase::deleteData(String link){
+int Firebase::deleteData(String link){
 	Connect_to_host();
   String Link = String("/")+link+String(".json");
 
@@ -231,8 +237,11 @@ String Firebase::deleteData(String link){
   String line;
   while(_httpsClient.available()){
     line = _httpsClient.readStringUntil('\n');
-    return line; // Return this
+    if (line.length() > 0)
+      return 200; // Success
   }
+
+  return 400;     // Failed
 }
 
 void Firebase::json(bool json){
