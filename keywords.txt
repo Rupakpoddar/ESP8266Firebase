@@ -1,0 +1,16 @@
+Firebase	KEYWORD1
+
+setString	KEYWORD2
+setInt		KEYWORD2
+setFloat	KEYWORD2
+
+pushString	KEYWORD2
+pushInt		KEYWORD2
+pushFloat	KEYWORD2
+
+getString	KEYWORD2
+getInt		KEYWORD2
+getFloat	KEYWORD2
+
+deleteData	KEYWORD2
+json		KEYWORD2
