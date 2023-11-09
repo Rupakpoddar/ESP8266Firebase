@@ -24,23 +24,31 @@ SOFTWARE.
 
 #include "ESP8266Firebase.h"
 
-Firebase::Firebase(String projectID){
-	_host = projectID+".firebaseio.com";
+Firebase::Firebase(String referenceURL) {
+	_host = referenceURL;
+
+  if (_host.startsWith("https://")) {
+    _host.remove(0, 8);
+  }
+
+  if (_host.endsWith("/")) {
+    _host.remove(_host.length() - 1);
+  }
 	_httpsClient.setInsecure();
 }
 
-int Firebase::setString(String link, String data){
+int Firebase::setString(String path, String data) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
-  String msg = "\""+data+"\"";
+  String jsonObject = String("/") + path + String(".json");
+  String msg = "\"" + data + "\"";
 
-  _httpsClient.print(String("PUT ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("PUT ") + jsonObject + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
           "Accept: */*\r\n" +
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
-          "Content-Length: "+msg.length()+"\r\n" +
+          "Content-Length: " + msg.length() + "\r\n" +
           "\r\n" +
           msg + "\r\n");
 
@@ -52,7 +60,7 @@ int Firebase::setString(String link, String data){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     if (line.length() > 0)
       return 200; // Success
@@ -61,27 +69,27 @@ int Firebase::setString(String link, String data){
   return 400;     // Failed
 }
 
-int Firebase::setInt(String link, int data){
+int Firebase::setInt(String path, int data) {
   String Data = String(data);
-  return Firebase::setNum(link, Data);
+  return Firebase::setNum(path, Data);
 }
 
-int Firebase::setFloat(String link, float data){
+int Firebase::setFloat(String path, float data) {
   String Data = String(data);
-  return Firebase::setNum(link, Data);
+  return Firebase::setNum(path, Data);
 }
 
-int Firebase::setNum(String link, String msg){
+int Firebase::setNum(String path, String msg) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
+  String jsonObject = String("/") + path + String(".json");
 
-  _httpsClient.print(String("PUT ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("PUT ") + jsonObject + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
           "Accept: */*\r\n" +
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
-          "Content-Length: "+msg.length()+"\r\n" +
+          "Content-Length: " + msg.length() + "\r\n" +
           "\r\n" +
           msg + "\r\n");
 
@@ -93,7 +101,7 @@ int Firebase::setNum(String link, String msg){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     if (line.length() > 0)
       return 200; // Success
@@ -102,19 +110,19 @@ int Firebase::setNum(String link, String msg){
   return 400;     // Failed
 }
 
-int Firebase::pushString(String link, String data){
+int Firebase::pushString(String path, String data) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
+  String jsonObject = String("/") + path + String(".json");
 
-  String msg = "\""+data+"\"";
+  String msg = "\"" + data + "\"";
 
-  _httpsClient.print(String("POST ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("POST ") + jsonObject + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
           "Accept: */*\r\n" +
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
-          "Content-Length: "+msg.length()+"\r\n" +
+          "Content-Length: " + msg.length() + "\r\n" +
           "\r\n" +
           msg + "\r\n");
 
@@ -126,7 +134,7 @@ int Firebase::pushString(String link, String data){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     if (line.length() > 0)
       return 200; // Success
@@ -135,27 +143,27 @@ int Firebase::pushString(String link, String data){
   return 400;     // Failed
 }
 
-int Firebase::pushInt(String link, int data){
+int Firebase::pushInt(String path, int data) {
   String Data = String(data);
-  return Firebase::pushNum(link, Data);
+  return Firebase::pushNum(path, Data);
 }
 
-int Firebase::pushFloat(String link, float data){
+int Firebase::pushFloat(String path, float data) {
   String Data = String(data);
-  return Firebase::pushNum(link, Data);
+  return Firebase::pushNum(path, Data);
 }
 
-int Firebase::pushNum(String link, String msg){
+int Firebase::pushNum(String path, String msg) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
+  String jsonObject = String("/") + path + String(".json");
 
-  _httpsClient.print(String("POST ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("POST ") + jsonObject + " HTTP/1.1\r\n" +
           "Host: " + _host + "\r\n" +
           "Connection: close\r\n" +
           "Accept: */*\r\n" +
           "User-Agent: Mozilla/4.0 (compatible; esp8266 Lua; Windows NT 5.1)\r\n" +
           "Content-Type: application/json;charset=utf-8\r\n" +
-          "Content-Length: "+msg.length()+"\r\n" +
+          "Content-Length: " + msg.length() + "\r\n" +
           "\r\n" +
           msg + "\r\n");
 
@@ -167,7 +175,7 @@ int Firebase::pushNum(String link, String msg){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     if (line.length() > 0)
       return 200; // Success
@@ -176,26 +184,26 @@ int Firebase::pushNum(String link, String msg){
   return 400;     // Failed
 }
 
-String Firebase::getString(String link){
-  Firebase::getData(link);
+String Firebase::getString(String path) {
+  Firebase::getData(path);
   return _String;
 }
 
-int Firebase::getInt(String link){
-  Firebase::getData(link);
+int Firebase::getInt(String path) {
+  Firebase::getData(path);
   return _int;
 }
 
-float Firebase::getFloat(String link){
-  Firebase::getData(link);
+float Firebase::getFloat(String path) {
+  Firebase::getData(path);
   return _float;
 }
 
-void Firebase::getData(String link){
+void Firebase::getData(String path) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
+  String jsonObject = String("/") + path + String(".json");
 
-  _httpsClient.print(String("GET ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("GET ") + jsonObject + " HTTP/1.1\r\n" +
                "Host: " + _host + "\r\n" +
                "Connection: close\r\n\r\n");
 
@@ -208,7 +216,7 @@ void Firebase::getData(String link){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     _int = line.toInt();
     _float = line.toFloat();
@@ -219,11 +227,11 @@ void Firebase::getData(String link){
   }
 }
 
-int Firebase::deleteData(String link){
+int Firebase::deleteData(String path) {
 	Connect_to_host();
-  String Link = String("/")+link+String(".json");
+  String jsonObject = String("/") + path + String(".json");
 
-  _httpsClient.print(String("DELETE ") + Link + " HTTP/1.1\r\n" +
+  _httpsClient.print(String("DELETE ") + jsonObject + " HTTP/1.1\r\n" +
                "Host: " + _host + "\r\n" +
                "Connection: close\r\n\r\n");
 
@@ -235,7 +243,7 @@ int Firebase::deleteData(String link){
   }
 
   String line;
-  while(_httpsClient.available()){
+  while(_httpsClient.available()) {
     line = _httpsClient.readStringUntil('\n');
     if (line.length() > 0)
       return 200; // Success
@@ -244,13 +252,13 @@ int Firebase::deleteData(String link){
   return 400;     // Failed
 }
 
-void Firebase::json(bool json){
+void Firebase::json(bool json) {
   _json = json;
 }
 
-void Firebase::Connect_to_host(){
+void Firebase::Connect_to_host() {
 	int r=0;
-  while((!_httpsClient.connect(_host, PORT)) && (r < 30)){
+  while((!_httpsClient.connect(_host, PORT)) && (r < 30)) {
       delay(100);
       r++;
   }

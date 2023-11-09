@@ -25,26 +25,32 @@ SOFTWARE.
 #ifndef ESP8266Firebase_h
 	#define ESP8266Firebase_h
 	#include "Arduino.h"
-	#include <ESP8266WiFi.h>
+
+	#if defined(ESP8266)
+		#include <ESP8266WiFi.h>
+	#else
+		#error "Please select an ESP8266 board for this sketch."
+	#endif
+
 	#define PORT 443
 
 	class Firebase
 	{
 		public:
-			Firebase(String projectID);
-			int setString(String link, String data);
-			int setNum(String link, String data);
-			int setInt(String link, int data);
-			int setFloat(String link, float data);
-			int pushString(String link, String data);
-			int pushNum(String link, String data);
-			int pushInt(String link, int data);
-			int pushFloat(String link, float data);
-			void getData(String link);
-			String getString(String link);
-			int getInt(String link);
-			float getFloat(String link);
-			int deleteData(String link);
+			Firebase(String referenceURL);
+			int setString(String path, String data);
+			int setNum(String path, String data);
+			int setInt(String path, int data);
+			int setFloat(String path, float data);
+			int pushString(String path, String data);
+			int pushNum(String path, String data);
+			int pushInt(String path, int data);
+			int pushFloat(String path, float data);
+			void getData(String path);
+			String getString(String path);
+			int getInt(String path);
+			float getFloat(String path);
+			int deleteData(String path);
 			void json(bool json);
 			void Connect_to_host();
 

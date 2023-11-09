@@ -1,18 +1,18 @@
 /*
-  Make sure your Firebase project's ".read" and ".write" rules are set to "true".
-  Avoiding this will result in an error.
-  For more details- https://github.com/Rupakpoddar/ESP8266Firebase/blob/master/README.md
+  Make sure your Firebase project's '.read' and '.write' rules are set to 'true'. 
+  Ignoring this will prevent the MCU from communicating with the database. 
+  For more details- https://github.com/Rupakpoddar/ESP8266Firebase 
 */
 
-#include <ArduinoJson.h>          // https://github.com/bblanchon/ArduinoJson
+#include <ArduinoJson.h>            // https://github.com/bblanchon/ArduinoJson 
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"        // Your WiFi SSID
-#define _PASSWORD "ENTER HERE"    // Your WiFi Password
-#define PROJECT_ID "ENTER HERE"   // Your Firebase Project ID. Can be found in project settings.
+#define _SSID "ENTER HERE"          // Your WiFi SSID 
+#define _PASSWORD "ENTER HERE"      // Your WiFi Password 
+#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url 
 
-Firebase firebase(PROJECT_ID);
+Firebase firebase(REFERENCE_URL);
 
 void setup() {
   Serial.begin(115200);
