@@ -34,6 +34,7 @@ Firebase::Firebase(String referenceURL) {
   if (_host.endsWith("/")) {
     _host.remove(_host.length() - 1);
   }
+  
 	_httpsClient.setInsecure();
 }
 
