@@ -12,9 +12,13 @@
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"          // Your WiFi SSID 
-#define _PASSWORD "ENTER HERE"      // Your WiFi Password 
-#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url 
+#define _SSID         "ENTER HERE"  // Your WiFi SSID
+#define _PASSWORD     "ENTER HERE"  // Your WiFi Password
+#define API_KEY       "ENTER HERE"  // Your Firebase project Web Api Key
+#define AUTH_TOKEN    "ENTER HERE"  // Your Firebase project Database Secrets
+#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url
+#define USER_EMAIL    "ENTER HERE"  // Your Firebase project Authentication (Email)
+#define USER_PASSWORD "ENTER HERE"  // Your Firebase project Authentication (Password)
 
 #define device1 5   // D1
 #define device2 4   // D2
@@ -22,7 +26,7 @@
 #define device4 14  // D5
 int device_list[4] = {device1, device2, device3, device4};
 
-Firebase firebase(REFERENCE_URL);
+Firebase firebase;
 
 void setup() {
   Serial.begin(115200);
@@ -57,6 +61,11 @@ void setup() {
   Serial.print(WiFi.localIP());
   Serial.println("/");
   digitalWrite(LED_BUILTIN, HIGH);
+
+  // Initialize Firebase Library
+  firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
+  firebase.signIn(USER_EMAIL, USER_PASSWORD);
+  // firebase.setBufferSize(1024, 1024); // Optional input
 
   firebase.json(true);  // Make sure to add this line. 
 }

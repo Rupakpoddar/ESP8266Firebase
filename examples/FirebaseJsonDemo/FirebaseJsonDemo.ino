@@ -8,11 +8,15 @@
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"          // Your WiFi SSID 
-#define _PASSWORD "ENTER HERE"      // Your WiFi Password 
-#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url 
+#define _SSID         "ENTER HERE"  // Your WiFi SSID
+#define _PASSWORD     "ENTER HERE"  // Your WiFi Password
+#define API_KEY       "ENTER HERE"  // Your Firebase project Web Api Key
+#define AUTH_TOKEN    "ENTER HERE"  // Your Firebase project Database Secrets
+#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url
+#define USER_EMAIL    "ENTER HERE"  // Your Firebase project Authentication (Email)
+#define USER_PASSWORD "ENTER HERE"  // Your Firebase project Authentication (Password)
 
-Firebase firebase(REFERENCE_URL);
+Firebase firebase;
 
 void setup() {
   Serial.begin(115200);
@@ -47,6 +51,11 @@ void setup() {
 //================================================================//
 //================================================================//
 
+  // Initialize Firebase Library
+  firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
+  firebase.signIn(USER_EMAIL, USER_PASSWORD);
+  // firebase.setBufferSize(1024, 1024); // Optional input
+
   // Write some data to the realtime database.
   firebase.setString("Example/setString", "It's Working");
   firebase.setInt("Example/setInt", 123);
@@ -79,7 +88,7 @@ void setup() {
   Serial.println(received_float);
 
   // Delete data from the realtime database.
-  firebase.deleteData("Example");
+  firebase.remove("Example");
 }
 
 void loop() {
