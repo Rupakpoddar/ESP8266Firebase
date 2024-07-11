@@ -68,9 +68,9 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);
 
   // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
   firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
   firebase.signIn(USER_EMAIL, USER_PASSWORD);
-  // firebase.setBufferSize(1024, 1024); // Optional input
 }
 
 void loop() {

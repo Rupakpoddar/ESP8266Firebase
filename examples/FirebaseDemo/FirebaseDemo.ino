@@ -51,9 +51,9 @@ void setup() {
 //================================================================//
 
   // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
   firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
   firebase.signIn(USER_EMAIL, USER_PASSWORD);
-  // firebase.setBufferSize(1024, 1024); // Optional input
 
   // Examples of setting String, integer and float values.
   firebase.setString("Example/setString", "It's Working");
@@ -81,7 +81,7 @@ void setup() {
   Serial.println(data3);
 
   // Example of data deletion.
-  firebase.remove("Example");
+  firebase.del("Example");
 }
 
 void loop() {

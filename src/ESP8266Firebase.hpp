@@ -28,13 +28,8 @@ SOFTWARE.
 #define esp8266firebase_hpp
 
 #include <Arduino.h>
+#include <ESP8266WiFi.h>
 #include <string>
-
-#if defined(ESP8266)
-    #include <ESP8266WiFi.h>
-#else
-    #error "Please select an ESP8266 board for this sketch."
-#endif
 
 #define PORT 443
 
@@ -42,11 +37,17 @@ class Firebase {
 public:
     void begin(String referenceURL, String apiKey, String authToken);
     void signIn(String email, String password);
-    void json(bool json);
+    // void json(bool json);
     void setBufferSize(int recv, int xmit) {
         _recv = recv; _xmit = xmit;
     }
 
+    int push(String path, String data);
+    String get(String path);
+    int set(String path, String data);
+    int del(String path);
+
+public:
     int setString(String path, String data);
     int setInt(String path, int data);
     int setFloat(String path, float data);
@@ -59,21 +60,18 @@ public:
     int getInt(String path);
     float getFloat(String path);
     bool getBool(String path);
-    int remove(String path);
 
 private:
     WiFiClientSecure _httpsClient;
     String _host, _apiKey;
     String _authToken, _String;
-    bool _json = false, _checkSignIn = false;
-    int _int, _recv=2014, _xmit=2014;
+    // bool _json = false;
+    bool _checkSignIn = false;
+    int _int, _recv=1024, _xmit=1024;
     float _float;
     bool _bool;
     
 private:
-    int pushNum(String path, String data);
-    int setNum(String path, String data);
-    void getData(String path);
     void connect_to_host();
 };
 

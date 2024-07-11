@@ -63,15 +63,13 @@ void setup() {
   digitalWrite(LED_BUILTIN, HIGH);
 
   // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
   firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
   firebase.signIn(USER_EMAIL, USER_PASSWORD);
-  // firebase.setBufferSize(1024, 1024); // Optional input
-
-  firebase.json(true);  // Make sure to add this line. 
 }
 
 void loop() {
-  String data = firebase.getString("cmd");  // Get data from database.
+  String data = firebase.get("cmd");  // Get data from database.
 
   // Deserialize the data.
   // Consider using the Arduino Json assistant- https://arduinojson.org/v6/assistant/

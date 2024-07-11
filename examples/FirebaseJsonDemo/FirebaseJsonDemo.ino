@@ -52,24 +52,29 @@ void setup() {
 //================================================================//
 
   // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
   firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
   firebase.signIn(USER_EMAIL, USER_PASSWORD);
-  // firebase.setBufferSize(1024, 1024); // Optional input
 
-  // Write some data to the realtime database.
-  firebase.setString("Example/setString", "It's Working");
-  firebase.setInt("Example/setInt", 123);
-  firebase.setFloat("Example/setFloat", 45.32);
-
-  firebase.json(true);              // Make sure to add this line.
-  
-  String data = firebase.getString("Example");  // Get data from the database.
-
-  // Deserialize the data.
+  // Test Set data to database.
+  // Create DynamicJsonDocument object
   // Consider using Arduino Json Assistant- https://arduinojson.org/v6/assistant/
   const size_t capacity = JSON_OBJECT_SIZE(3) + 50;
   DynamicJsonDocument doc(capacity);
+  String setdata = "";
 
+  // Write some data to the realtime database.
+  doc["setString"] = "It's Working";
+  doc["setInt"] = 123;
+  doc["setFloat"] = 45.32;
+
+  // Serialize the data
+  serializeJson(doc, setdata);
+  firebase.set("Example", setdata);
+  
+  // Test Get data from database.
+  String data = firebase.get("Example");  // Get data from the database.
+  // Deserialize the data.
   deserializeJson(doc, data);
 
   // Store the deserialized data.
@@ -88,7 +93,7 @@ void setup() {
   Serial.println(received_float);
 
   // Delete data from the realtime database.
-  firebase.remove("Example");
+  firebase.del("Example");
 }
 
 void loop() {
