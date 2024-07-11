@@ -197,11 +197,11 @@ int Firebase::pushBool(String path, bool data) {
 String Firebase::get(String path) {
     if (!_checkSignIn) {
         // Failed to SignIn account
+        Serial.println(F("Failed to sign in"));
         _int = 0;
         _float = 0;
         _String = "";
-        Serial.println(F("Failed to sign in"));
-        return;
+        return _String;
     }
     
     connect_to_host();
