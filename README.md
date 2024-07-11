@@ -3,6 +3,7 @@
 ## [UPDATE Jul 2023]: Add setBufferSize() method and Implement authentication check in Firebase methods
 - Added setBufferSize() method to allow customization of receive and transmit buffer sizes for _httpsClient.
 - Added authentication check in methods to ensure Firebase operations require prior sign-in.
+- Added boolean method.
 
 # Tutorial
 ### The following steps are one-time process:
