@@ -76,7 +76,12 @@ void loop() {
   const size_t capacity = JSON_OBJECT_SIZE(5) + 60;
   DynamicJsonDocument doc(capacity);
 
-  deserializeJson(doc, data);
+  // Deserialize the data.
+  DeserializationError error = deserializeJson(doc, data);
+  if (error) {
+    Serial.print(F("Error parse : "));
+    Serial.println(error.f_str());
+  }
 
   String Device1 = doc["Device1"];
   String Device2 = doc["Device2"];

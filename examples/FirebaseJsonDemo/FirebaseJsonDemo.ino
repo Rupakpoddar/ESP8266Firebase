@@ -75,8 +75,12 @@ void setup() {
   // Test Get data from database.
   String data = firebase.get("Example");  // Get data from the database.
   // Deserialize the data.
-  deserializeJson(doc, data);
-
+  DeserializationError error = deserializeJson(doc, data);
+  if (error) {
+    Serial.print(F("Error parse : "));
+    Serial.println(error.f_str());
+  }
+  
   // Store the deserialized data.
   const char* received_String = doc["setString"]; // "It's Working"
   int received_int = doc["setInt"];               // 123
