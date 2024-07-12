@@ -85,7 +85,7 @@ void Firebase::signIn(String email, String password) {
 void Firebase::connect_to_host() {
     int r = 0;
     while ((!_httpsClient.connect(_host, PORT)) && (r < 30)) {
-        delay(100);
+        delay(50);
         r++;
     }
 }
