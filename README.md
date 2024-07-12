@@ -1,6 +1,6 @@
 # ESP8266Firebase
 ## Arduino library to read and write data to Google Firebase.
-## [UPDATE Jul 2023]: Add setBufferSize() method and Implement authentication check in Firebase methods
+## [UPDATE Jul 2024]: Add setBufferSize() method and Implement authentication check in Firebase methods
 - Added setBufferSize() method to allow customization of receive and transmit buffer sizes for _httpsClient.
 - Added authentication check in methods to ensure Firebase operations require prior sign-in.
 - Added boolean method.
