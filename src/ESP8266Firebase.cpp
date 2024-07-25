@@ -37,7 +37,6 @@ void Firebase::begin(String referenceURL, String apiKey, String authToken) {
     }
 
     _httpsClient.setInsecure();
-    _httpsClient.setBufferSizes(_recv, _xmit);
 }
 
 void Firebase::signIn(String email, String password) {
@@ -83,6 +82,7 @@ void Firebase::signIn(String email, String password) {
 }
 
 void Firebase::connect_to_host() {
+    _httpsClient.setBufferSizes(_recv, _xmit);
     int r = 0;
     while ((!_httpsClient.connect(_host, PORT)) && (r < 30)) {
         delay(50);
