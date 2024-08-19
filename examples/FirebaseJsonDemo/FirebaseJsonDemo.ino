@@ -8,11 +8,15 @@
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"          // Your WiFi SSID 
-#define _PASSWORD "ENTER HERE"      // Your WiFi Password 
-#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url 
+#define _SSID         "ENTER HERE"  // Your WiFi SSID
+#define _PASSWORD     "ENTER HERE"  // Your WiFi Password
+#define API_KEY       "ENTER HERE"  // Your Firebase project Web Api Key
+#define AUTH_TOKEN    "ENTER HERE"  // Your Firebase project Database Secrets
+#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url
+#define USER_EMAIL    "ENTER HERE"  // Your Firebase project Authentication (Email)
+#define USER_PASSWORD "ENTER HERE"  // Your Firebase project Authentication (Password)
 
-Firebase firebase(REFERENCE_URL);
+Firebase firebase;
 
 void setup() {
   Serial.begin(115200);
@@ -47,22 +51,36 @@ void setup() {
 //================================================================//
 //================================================================//
 
-  // Write some data to the realtime database.
-  firebase.setString("Example/setString", "It's Working");
-  firebase.setInt("Example/setInt", 123);
-  firebase.setFloat("Example/setFloat", 45.32);
+  // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
+  firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
+  firebase.signIn(USER_EMAIL, USER_PASSWORD);
 
-  firebase.json(true);              // Make sure to add this line.
-  
-  String data = firebase.getString("Example");  // Get data from the database.
-
-  // Deserialize the data.
+  // Test Set data to database.
+  // Create DynamicJsonDocument object
   // Consider using Arduino Json Assistant- https://arduinojson.org/v6/assistant/
   const size_t capacity = JSON_OBJECT_SIZE(3) + 50;
   DynamicJsonDocument doc(capacity);
+  String setdata = "";
 
-  deserializeJson(doc, data);
+  // Write some data to the realtime database.
+  doc["setString"] = "It's Working";
+  doc["setInt"] = 123;
+  doc["setFloat"] = 45.32;
 
+  // Serialize the data
+  serializeJson(doc, setdata);
+  firebase.set("Example", setdata);
+  
+  // Test Get data from database.
+  String data = firebase.get("Example");  // Get data from the database.
+  // Deserialize the data.
+  DeserializationError error = deserializeJson(doc, data);
+  if (error) {
+    Serial.print(F("Error parse : "));
+    Serial.println(error.f_str());
+  }
+  
   // Store the deserialized data.
   const char* received_String = doc["setString"]; // "It's Working"
   int received_int = doc["setInt"];               // 123
@@ -79,7 +97,7 @@ void setup() {
   Serial.println(received_float);
 
   // Delete data from the realtime database.
-  firebase.deleteData("Example");
+  firebase.del("Example");
 }
 
 void loop() {

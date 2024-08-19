@@ -9,9 +9,13 @@
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"          // Your WiFi SSID
-#define _PASSWORD "ENTER HERE"      // Your WiFi Password
+#define _SSID         "ENTER HERE"  // Your WiFi SSID
+#define _PASSWORD     "ENTER HERE"  // Your WiFi Password
+#define API_KEY       "ENTER HERE"  // Your Firebase project Web Api Key
+#define AUTH_TOKEN    "ENTER HERE"  // Your Firebase project Database Secrets
 #define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url
+#define USER_EMAIL    "ENTER HERE"  // Your Firebase project Authentication (Email)
+#define USER_PASSWORD "ENTER HERE"  // Your Firebase project Authentication (Password)
 
 #define M1A 5   // D1: Output 1 for motor driver
 #define M1B 4   // D2: Output 2 for motor driver
@@ -21,7 +25,7 @@
 #define TURN_DELAY 100
 #define FORWARD_BACKWARD_DELAY 500
 
-Firebase firebase(REFERENCE_URL);
+Firebase firebase;
 
 void setup() {
   Serial.begin(115200);
@@ -62,6 +66,11 @@ void setup() {
   Serial.print(WiFi.localIP());
   Serial.println("/");
   digitalWrite(LED_BUILTIN, HIGH);
+
+  // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
+  firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
+  firebase.signIn(USER_EMAIL, USER_PASSWORD);
 }
 
 void loop() {

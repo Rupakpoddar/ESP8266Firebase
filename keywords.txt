@@ -12,5 +12,5 @@ getString	KEYWORD2
 getInt		KEYWORD2
 getFloat	KEYWORD2
 
-deleteData	KEYWORD2
+remove  	KEYWORD2
 json		KEYWORD2

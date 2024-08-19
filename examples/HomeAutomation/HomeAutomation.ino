@@ -12,9 +12,13 @@
 #include <ESP8266Firebase.h>
 #include <ESP8266WiFi.h>
 
-#define _SSID "ENTER HERE"          // Your WiFi SSID 
-#define _PASSWORD "ENTER HERE"      // Your WiFi Password 
-#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url 
+#define _SSID         "ENTER HERE"  // Your WiFi SSID
+#define _PASSWORD     "ENTER HERE"  // Your WiFi Password
+#define API_KEY       "ENTER HERE"  // Your Firebase project Web Api Key
+#define AUTH_TOKEN    "ENTER HERE"  // Your Firebase project Database Secrets
+#define REFERENCE_URL "ENTER HERE"  // Your Firebase project reference url
+#define USER_EMAIL    "ENTER HERE"  // Your Firebase project Authentication (Email)
+#define USER_PASSWORD "ENTER HERE"  // Your Firebase project Authentication (Password)
 
 #define device1 5   // D1
 #define device2 4   // D2
@@ -22,7 +26,7 @@
 #define device4 14  // D5
 int device_list[4] = {device1, device2, device3, device4};
 
-Firebase firebase(REFERENCE_URL);
+Firebase firebase;
 
 void setup() {
   Serial.begin(115200);
@@ -58,18 +62,26 @@ void setup() {
   Serial.println("/");
   digitalWrite(LED_BUILTIN, HIGH);
 
-  firebase.json(true);  // Make sure to add this line. 
+  // Initialize Firebase Library
+  // firebase.setBufferSize(4096, 1024); // Optional input
+  firebase.begin(REFERENCE_URL, API_KEY, AUTH_TOKEN);
+  firebase.signIn(USER_EMAIL, USER_PASSWORD);
 }
 
 void loop() {
-  String data = firebase.getString("cmd");  // Get data from database.
+  String data = firebase.get("cmd");  // Get data from database.
 
   // Deserialize the data.
   // Consider using the Arduino Json assistant- https://arduinojson.org/v6/assistant/
   const size_t capacity = JSON_OBJECT_SIZE(5) + 60;
   DynamicJsonDocument doc(capacity);
 
-  deserializeJson(doc, data);
+  // Deserialize the data.
+  DeserializationError error = deserializeJson(doc, data);
+  if (error) {
+    Serial.print(F("Error parse : "));
+    Serial.println(error.f_str());
+  }
 
   String Device1 = doc["Device1"];
   String Device2 = doc["Device2"];
